@@ -108,7 +108,7 @@ public class PropertyResolver {
 
     public String getProperty(String key,String defaultValue) {
         String value = getProperty(key);
-     return value==null?parseValue(defaultValue):defaultValue;
+     return value==null?parseValue(defaultValue):value;
     }
 
     String parseValue(String value) {
