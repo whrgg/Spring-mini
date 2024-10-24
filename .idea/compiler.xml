@@ -9,8 +9,8 @@
         <module name="mini-spring" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="mini-spring" target="15" />
+    <bytecodeTargetLevel target="16">
+      <module name="mini-spring" target="19" />
     </bytecodeTargetLevel>
   </component>
 </project>
