@@ -2,9 +2,13 @@ package springJdbc.jdbc;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import springIoc.annotation.Autowired;
 import springIoc.annotation.Bean;
 import springIoc.annotation.Configuration;
 import springIoc.annotation.Value;
+import springJdbc.jdbc.transactional.DataSourceTransactionManager;
+import springJdbc.jdbc.transactional.PlatformTransactionManager;
+import springJdbc.jdbc.transactional.TransactionalBeanPostProcessor;
 
 import javax.sql.DataSource;
 
@@ -32,5 +36,20 @@ public class JdbcConfiguration {
         config.setMinimumIdle(minimumPoolSize);
         config.setConnectionTimeout(connTimeout);
         return new HikariDataSource(config);
+    }
+
+    @Bean
+    JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    TransactionalBeanPostProcessor transactionalBeanPostProcessor() {
+        return new TransactionalBeanPostProcessor();
+    }
+
+    @Bean
+    PlatformTransactionManager platformTransactionManager(@Autowired DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }

@@ -33,6 +33,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
     Set<String> creatingBeanNames;// 用于解决循环依赖的二级缓存
 
     public AnnotationConfigApplicationContext (Class<?> configClass, PropertyResolver propertyResolver){
+        ApplicationContextUtils.setApplicationContext(this);
         this.propertyResolver = propertyResolver;
         final Set<String> beanClassNames = scanForClassNames(configClass);
         // 创建Bean的定义:

@@ -50,7 +50,7 @@ public abstract class AnnotationProxyBeanPostProcessor<A extends Annotation> imp
         if(annotation!=null){
             String HandlerName;
             try {
-                HandlerName  = (String) annotation.annotationType().getMethod("Value").invoke(annotation);
+                HandlerName  = (String) annotation.annotationType().getMethod("value").invoke(annotation);
             } catch (ReflectiveOperationException e) {
                 throw new AopConfigException(String.format("@%s must have value() returned String type.", this.annotationClass.getSimpleName()), e);
             }
@@ -63,7 +63,7 @@ public abstract class AnnotationProxyBeanPostProcessor<A extends Annotation> imp
     }
 
     Object createProxy(Class<?> beanClass, Object bean, String handlerName) {
-        ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) ApplicationContextUtils.getApplicationContext();
+        ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) ApplicationContextUtils.getRequiredApplicationContext();
         BeanDefinition def = ctx.findBeanDefinition(handlerName);
 
         if (def == null) {

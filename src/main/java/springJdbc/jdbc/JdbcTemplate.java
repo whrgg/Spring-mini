@@ -2,6 +2,7 @@ package springJdbc.jdbc;
 
 import springIoc.annotation.Autowired;
 import springJdbc.exception.DataAccessException;
+import springJdbc.jdbc.transactional.TransactionalUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -16,6 +17,17 @@ public class JdbcTemplate {
     }
 
     public <T> T execute(ConnectionCallback<T> action){
+
+        Connection currentConnection = TransactionalUtils.getCurrentConnection();
+        if(currentConnection!=null){
+            try {
+                T result = action.doInConnection(currentConnection);
+                return result;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         try (Connection newConn = dataSource.getConnection()) {
             T result = action.doInConnection(newConn);
             return result;
